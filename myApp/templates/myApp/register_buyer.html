@@ -1,0 +1,14 @@
+{%extends "myApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<h2>Register as Buyer</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ buyer_form.as_p }}
+    <button type="submit">Register</button>
+</form>
+<p>Already have an account? <a href="{% url 'login_buyer' %}">Login here</a>.</p>
+{% endblock %}

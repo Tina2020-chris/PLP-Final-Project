@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 2px solid #ddd;
+    padding: 20px 0;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.user-profile img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.search-results {
+    text-align: center; 
+    padding: 20px;
+    background-image: url('/static/img/veggies.jpg');
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+}
+
+.search-results h2{
+    font-size: 11vh;
+    line-height: 1;
+    color: #42f5dd;
+    font-weight: bold;
+}
+
+.search-results p{
+    font-size: large;
+    text-align: bottom center;
+    color: maroon;
+}
+
+.container p{
+    font-size: 5vh;
+    color: maroon;
+    font-weight: bolder;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}

@@ -1,0 +1,6 @@
+<h1>All Produce</h1>
+<ul>
+  {% for item in produce %}
+    <li>{{ item.name }} - ${{ item.price }} - {{ item.quantity }} available</li>
+  {% endfor %}
+</ul>

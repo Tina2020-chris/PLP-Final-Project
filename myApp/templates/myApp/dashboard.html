@@ -1,0 +1,87 @@
+{%extends "myApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="dashboard">
+    <header>
+        <div class="logo">
+            <img src="{% static 'img\logo.jpeg' %}" alt="Market Logo">
+            <p>Farmers' Marketplace</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="//">Home</a></li>
+                <li><a href="/dashboard/add/">Sell</a></li>
+                <li><a href="/dashboard/buy/<int:produce_id>/">Buy</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Dashboard</h1>
+
+{% if user.is_farmer %}
+<h2>Your Produce</h2>
+<a href="{% url 'add_produce' %}">Add New Produce</a>
+<ul>
+    {% for produce in produce_list %}
+        <li>{{ produce.name }} - ${{ produce.price }} - {{ produce.quantity }} available</li>
+    {% endfor %}
+</ul>
+{% else %}
+    <h2>Available Produce</h2>
+    <ul>
+        {% for produce in produce_list %}
+            <li>{{ produce.name }} - ${{ produce.price }} - {{ produce.quantity }} available
+                <a href="{% url 'buy_produce' produce.id %}">Buy</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<!--<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        <h2 class="product-name">{{ product.name }}</h2>
+        <p class="product-price">{{ product.price }} RWF/{{ product.unit }}</p>
+    </div>
+    {% empty %}
+    <p>No products available at the moment</p>
+    {% endfor %}
+</div>
+    <div class="dashboard-summary">
+        <div class="summary-box">
+            <h2>Total Sales</h2>
+            <p>{{ total_sales }}</p>
+        </div>
+        <div class="summary-box">
+            <h2>Total Farmers</h2>
+            <p>{{ total_farmers }}</p>
+        </div>
+        <div class="summary-box">
+            <h2>Total Products</h2>
+            <p>{{ total_products }}</p>
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Top Selling Products</h2>
+        <ul>
+            {% for product in top_products %}
+                <li>{{ product.name }} - {{ product.total_solid }} sold</li>
+            {% empty %}
+                <li>No products sold yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Orders Overview</h2>
+        <p>Pending Orders: {{ pending_orders }}</p>
+        <p>Completed Orders: {{ completed_orders }}</p>
+    </div>-->
+</div>
+
+{% endblock %}

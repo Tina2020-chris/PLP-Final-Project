@@ -1,0 +1,30 @@
+{%extends "myApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="dashboard-container"></div>
+    <h2>Your Produce</h2>
+
+    <div class="produce-list">
+        {% for produce in farmer_produce %}
+        <div class="produce-item">
+            <img src="{{ produce.image.url }}" alt="{{ produce.name }}" width="100" class="produce-image">
+            <div class="produce-details">
+                <p class="produce-name">Name: {{ produce.name }}</p>
+                <p class="produce-description">Description: {{ produce.description }}</p>
+                <p class="produce-price">Price: ${{ produce.price }}</p>
+                <p class="produce-quantity">Quantity: ${{ produce.quantity }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <li>No produce added yet.</li>
+        {% endfor %}
+    </div>
+    <a href="{% url 'register_produce' %}" class="btn-register">Register New Produce</a>
+</div>
+{% endblock %}
+
+
+    

@@ -1,0 +1,24 @@
+{%extends "myApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Available Produce</h1>
+<ul>
+  {% for produce in all_produce %}
+  <li>
+    <img src="{{ produce.image.url }}" alt="{{ produce.name }}" width="100">
+    <p>Name: {{ produce.name }}</p>
+    <p>Description: {{ produce.description }}</p>
+    <p>Price: ${{ produce.price }}</p>
+    <p>Quantity: ${{ produce.quantity }}</p>
+  </li>
+  {% empty %}
+  <li>No produce available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
+
+
+    

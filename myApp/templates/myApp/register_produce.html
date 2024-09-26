@@ -1,0 +1,105 @@
+{% extends 'myApp/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Register Your Produce</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Name:</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="id_price">Price (Ksh):</label>
+                {{ form.price }}
+            </div>
+            <div class="form-group">
+                <label for="id_quantity">Quantity:</label>
+                {{ form.quantity }}
+            </div>
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+            </div>
+            <div class="form-group">
+                <label for="id_image">Image:</label>
+                {{ form.image }}
+            </div>
+            <button type="submit" id="register-button">Register Produce</button>
+        </form>
+</div>
+
+
+{% endblock %}
+
+<!--<h2>Register Produce</h2>
+<form method="POST" action="/dashboard/farmer/">
+    {% csrf_token %}
+    <label for="name">Produce Name:</label>
+    <input type="text" id="name" name="name"><br>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description"></textarea><br>
+    <label for="peice">Price</label>
+    <input type="number" name="price" step="0.01" required><br>
+    <label for="contact_phone">Contact Phone:</label>
+    <input type="tel" id="contact_phone" name="contact_phone" required><br>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" required><br>
+    <label for="county">County:</label>
+    <select name="county" id="county">
+        <option value="Bomet">Bomet</option>
+        <option value="Bungoma">Bungoma</option>
+        <option value="Busia">Busia</option>
+        <option value="Elgeyo-Marakwet">Elgeyo-Marakwet</option>
+        <option value="embu">Embu</option> 
+        <option value="garissa">Garissa</option> 
+        <option value="homa bay">Homa Bay</option> 
+        <option value="isiolo">Isiolo</option> 
+        <option value="kajiado">Kajiado</option> 
+        <option value="kakamega">Kakamega</option> 
+        <option value="kericho">Kericho</option> 
+        <option value="kiambu">Kiambu</option> 
+        <option value="kilifi">Kilifi</option> 
+        <option value="kirinyaga">Kirinyaga</option> 
+        <option value="kisii">Kisii</option> 
+        <option value="kisumu">Kisumu</option> 
+        <option value="kitui">Kitui</option> 
+        <option value="kwale">Kwale</option> 
+        <option value="laikipia">Laikipia</option> 
+        <option value="lamu">Lamu</option> 
+        <option value="machakos">Machakos</option> 
+        <option value="makueni">Makueni</option> 
+        <option value="mandera">Mandera</option> 
+        <option value="marsabit">Marsabit</option> 
+        <option value="meru">Meru</option> 
+        <option value="migori">Migori</option> 
+        <option value="mombasa">Mombasa</option> 
+        <option value="murang'a">Murang'a</option> 
+        <option value="nairobi">Nairobi</option> 
+        <option value="nakuru">Nakuru</option> 
+        <option value="nandi">Nandi</option> 
+        <option value="nyamira">Nyamira</option> 
+        <option value="narok">Narok</option> 
+        <option value="nyandarua">Nyandarua</option> 
+        <option value="nyeri">Nyeri</option> 
+        <option value="samburu">Samburu</option> 
+        <option value="siaya">Siaya</option> 
+        <option value="taita taveta">Taita Taveta</option> 
+        <option value="tana river">Tana River</option> 
+        <option value="tharaka nithi">Tharaka Nithi</option> 
+        <option value="trans nzoia">Trans Nzoia</option> 
+        <option value="turkana">Turkana</option> 
+        <option value="uasin gishu">Uasin Gishu</option> 
+        <option value="vihiga">Vihiga</option>
+        <option value="wajir">Wajir</option> 
+        <option value="west pokot">West Pokot</option>
+    </select><br>
+    <label for="terms_of_use">
+        <input type="checkbox" id="terms_of_use" name="terms_of_use" required>
+        I Accept Terms of Use
+    </label><br>
+    <button type="submit">Add Produce</button>
+</form>-->
+

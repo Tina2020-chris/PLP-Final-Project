@@ -1,12 +1,50 @@
-{%extends "myApp/base.html" %}
-
+{% extends "myApp/base.html" %}
 {% load static %}
 
 {% block content %}
+<div class="dashboard-container">
+    <h2>Dashboard</h2>
 
-<div class="dashboard-container"></div>
-    <h2>Your Produce</h2>
+    <!-- Top Metrics -->
+    <div class="metrics">
+        <div class="metric-item">
+            <p>Pageview</p>
+            <h3>{{ pageview_count }}</h3>
+        </div>
+        <div class="metric-item">
+            <p>Order</p>
+            <h3>{{ order_count }}</h3>
+        </div>
+        <div class="metric-item">
+            <p>Sales</p>
+            <h3>${{ total_sales }}</h3>
+        </div>
+    </div>
 
+    <!-- Orders Breakdown -->
+    <div class="orders-summary">
+        <h3>Orders</h3>
+        <ul>
+            <li>Total: {{ total_orders }}</li>
+            <li>Completed: {{ completed_orders }}</li>
+            <li>Pending: {{ pending_orders }}</li>
+            <li>Cancelled: {{ cancelled_orders }}</li>
+            <li>Refunded: {{ refunded_orders }}</li>
+            <li>On Hold: {{ on_hold_orders }}</li>
+        </ul>
+        <div>
+            <canvas id="ordersPieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Sales Analysis -->
+    <div class="sales-analysis">
+        <h3>Sales</h3>
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <!-- Produce List -->
+    <h3>Your Produce</h3>
     <div class="produce-list">
         {% for produce in farmer_produce %}
         <div class="produce-item">
@@ -15,16 +53,61 @@
                 <p class="produce-name">Name: {{ produce.name }}</p>
                 <p class="produce-description">Description: {{ produce.description }}</p>
                 <p class="produce-price">Price: ${{ produce.price }}</p>
-                <p class="produce-quantity">Quantity: ${{ produce.quantity }}</p>
+                <p class="produce-quantity">Quantity: {{ produce.quantity }}</p>
             </div>
         </div>
         {% empty %}
         <li>No produce added yet.</li>
         {% endfor %}
     </div>
+
+    <!-- Register New Produce Button -->
     <a href="{% url 'register_produce' %}" class="btn-register">Register New Produce</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Orders Pie Chart
+    var ctxOrders = document.getElementById('ordersPieChart').getContext('2d');
+    var ordersPieChart = new Chart(ctxOrders, {
+        type: 'pie',
+        data: {
+            labels: ['Completed', 'Pending', 'Cancelled', 'Refunded', 'On Hold'],
+            datasets: [{
+                data: [
+                    {{ completed_orders }},
+                    {{ pending_orders }},
+                    {{ cancelled_orders }},
+                    {{ refunded_orders }},
+                    {{ on_hold_orders }}
+                ],
+                backgroundColor: ['#4CAF50', '#FFC107', '#F44336', '#00ACC1', '#FF5722']
+            }]
+        }
+    });
+
+    // Sales Line Chart
+    var ctxSales = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctxSales, {
+        type: 'line',
+        data: {
+            labels: {{ sales_dates | safe }}, // This will output a valid JavaScript array
+            datasets: [
+                {
+                    label: 'Number of items sold',
+                    data: {{ items_sold_data | safe }}, // This will output a valid JavaScript array
+                    borderColor: '#3e95cd',
+                    fill: false
+                },
+                {
+                    label: 'Number of orders',
+                    data: {{ orders_data | safe }}, // This will output a valid JavaScript array
+                    borderColor: '#8e5ea2',
+                    fill: false
+                }
+            ]
+        }
+    });
+</script>
 {% endblock %}
-
-
-    

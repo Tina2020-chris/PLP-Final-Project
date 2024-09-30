@@ -3,6 +3,41 @@ from django.contrib.auth.models import User
 from .models import Farmer, Buyer
 from django import forms
 from .models import Produce
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
+class FarmerLoginForm(AuthenticationForm):
+    """Custom form for farmer login if any customization is needed later."""
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your farmer username',
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password',
+        })
+    )
+
+
+class BuyerLoginForm(AuthenticationForm):
+    """Custom form for buyer login if any customization is needed later."""
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your buyer username',
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password',
+        })
+    )
 
 class ProduceForm(forms.ModelForm):
     class Meta:

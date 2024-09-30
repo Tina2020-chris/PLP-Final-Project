@@ -1,24 +1,82 @@
-{%extends "myApp/base.html" %}
+{% extends "myApp/base.html" %}
 
 {% load static %}
 
 {% block content %}
 
-<h1>Available Produce</h1>
-<ul>
-  {% for produce in all_produce %}
-  <li>
-    <img src="{{ produce.image.url }}" alt="{{ produce.name }}" width="100">
-    <p>Name: {{ produce.name }}</p>
-    <p>Description: {{ produce.description }}</p>
-    <p>Price: ${{ produce.price }}</p>
-    <p>Quantity: ${{ produce.quantity }}</p>
-  </li>
-  {% empty %}
-  <li>No produce available.</li>
-  {% endfor %}
-</ul>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="logo">
+      <img src="{% static 'img/logo.jpeg' %}" alt="Market Logo">
+    </div>
+    <p>Farmers' Marketplace</p>
+    <div class="user-profile">
+      <img src="{% static 'img/profile.jpg' %}" alt="User Profile">
+      <p>Hi, {{ user.username }}</p>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <ul class="menu">
+      <li><a href="{% url 'buyer_dashboard' %}">Dashboard</a></li>
+      <li><a href="#">Orders</a></li>
+      <li><a href="">Settings</a></li>
+      <li><a href="{% url 'cart_view' %}">Cart</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <!-- Search Section -->
+    <section class="search-section">
+      <form method="GET" action="{% url 'produce_list' %}">
+        <div class="search-bar">
+          <input type="text" name="q" placeholder="Search for produce..." value="{{ request.GET.q }}">
+          <button type="submit">Search</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Produce Grid -->
+    <section class="produce-grid">
+      {% for produce in all_produce %}
+      <div class="produce-item">
+        <img src="{{ produce.image.url }}" alt="{{ produce.name }}" class="produce-image">
+        <div class="produce-details">
+          <p class="produce-name">{{ produce.name }}</p>
+          <p class="produce-description">{{ produce.description }}</p>
+          <p class="produce-price">Price: ${{ produce.price }}</p>
+          <p class="produce-quantity">Quantity: {{ produce.quantity }}</p>
+        </div>
+        <form action="{% url 'place_order' produce.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" class="order-button">Place Order</button>
+        </form>
+      </div>
+      {% empty %}
+      <div class="no-produce">No produce available.</div>
+      {% endfor %}
+    </section>
+  </main>
+
+  <section class="sidebar-right">
+    <div class="card-summary">
+      <h3>My Cards</h3>
+      <div class="credit-card">
+        <p>Credit Card</p>
+        <p>**** **** **** 1234</p>
+      </div>
+      <div class="payment-summary">
+        <p>Payment Limit: ${{ payment_limit }} / $4000</p>
+      </div>
+    </div>
+    <div class="recent-activity">
+      <h3>Recent Activity</h3>
+      <ul>
+        <li>Ordered: {{ recent_order.name }}</li>
+        <li>Shipped: {{ recent_order.status }}</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
 {% endblock %}
-
-
-    

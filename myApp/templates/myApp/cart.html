@@ -1,7 +1,14 @@
 <h2>Your Cart</h2>
-<ul>
-    {% for item in cart_items %}
-        <li>{{ item.produce.name }} - {{ item.quantity }} units</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'checkout' %}">Checkout</a>
+<div class="cart-container">
+    <ul class="cart-items">
+        {% for item in cart_items %}
+            <li class="cart-item">
+                <span class="produce-name">{{ item.produce.name }}</span> - 
+                <span class="produce-quantity">{{ item.quantity }} units</span>
+            </li>
+        {% empty %}
+            <li class="empty-cart">Your cart is empty.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'checkout' %}" class="checkout-button">Checkout</a>
+</div>

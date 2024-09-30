@@ -24,15 +24,15 @@ def register_farmer(request):
             profile, created = Profile.objects.get_or_create(user=user, defaults={'role': 'farmer'})
 
             # Automatically make this user a superuser and staff
-            user.is_superuser = True
-            user.is_staff = True
+            #user.is_superuser = True
+            #user.is_staff = True
 
             # Save farmer info
             farmer = farmer_form.save(commit=False)
             farmer.user = user
             farmer.save()
 
-            return redirect('login_farmer')  # Redirect to buyer login page
+            return redirect('login_farmer')  # Redirect to farmer login page
 
             # Log in and redirect to farmer dashboard
            # login(request, user)
@@ -58,8 +58,8 @@ def register_buyer(request):
             profile, created = Profile.objects.get_or_create(user=user, defaults={'role': 'buyer'})
             
             # Automatically make this user a superuser and staff
-            user.is_superuser = True
-            user.is_staff = True
+            #user.is_superuser = True
+            #user.is_staff = True
 
             # Save buyer info
             buyer = buyer_form.save(commit=False)
@@ -74,10 +74,16 @@ def register_buyer(request):
 
 
 # Custom login view for farmers
+from .forms import FarmerLoginForm, BuyerLoginForm
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+# Custom login view for farmers
 def login_farmer(request):
-    form = AuthenticationForm()
+    form = FarmerLoginForm()
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = FarmerLoginForm(request, data=request.POST)
         if form.is_valid():
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user and user.profile.role == 'farmer':
@@ -87,12 +93,11 @@ def login_farmer(request):
                 messages.error(request, "Unauthorized access for farmers.")
     return render(request, 'myApp/login_farmer.html', {'form': form})
 
-
 # Custom login view for buyers
 def login_buyer(request):
-    form = AuthenticationForm()
+    form = BuyerLoginForm()
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = BuyerLoginForm(request, data=request.POST)
         if form.is_valid():
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user and user.profile.role == 'buyer':
@@ -103,9 +108,11 @@ def login_buyer(request):
     return render(request, 'myApp/login_buyer.html', {'form': form})
 
 
+
 # Farmer dashboard view
 @login_required
 def farmer_dashboard(request):
+    
     farmer = Farmer.objects.get(user=request.user)
     produce = Produce.objects.filter(farmer=farmer)
     sales = CartItem.objects.filter(produce__farmer=farmer)  # Tracking sales for the farmer
@@ -163,12 +170,27 @@ def checkout(request):
     return render(request, 'myApp/checkout_success.html')
 
 def home(request):
-    return render(request, 'myApp/home.html')
+    return render(request, 'myApp/index.html')
 
 def produce_list(request):
     # Display all available produce
     produce = Produce.objects.all()
     return render(request, 'myApp/produce_list.html', {'produce': produce})
+
+from django.shortcuts import render
+from .models import Produce
+
+def produce_list(request):
+    query = request.GET.get('q')  # Get the search query from the request
+    if query:
+        all_produce = Produce.objects.filter(name__icontains=query)  # Filter produce by name
+    else:
+        all_produce = Produce.objects.all()  # Show all produce if no search query
+
+    context = {
+        'all_produce': all_produce,
+    }
+    return render(request, 'myApp/produce_list.html', context)
 
 
 
